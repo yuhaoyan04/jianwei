@@ -6,7 +6,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
-  site: 'https://jianwei-lab.pages.dev',
+  site: 'https://jianwei-note.pages.dev',
   trailingSlash: 'never',
   integrations: [mdx()],
   markdown: {

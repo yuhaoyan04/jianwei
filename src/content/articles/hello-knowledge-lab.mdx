@@ -1,6 +1,6 @@
 ---
 title: Hello Knowledge Lab——从零搭一个内容优先的个人站
-summary: 第一篇 Build In Public。讲清楚 Astro、MDX、Cloudflare Pages 各自的原理与技术细节，以及我是如何一步一步把这个站搭起来的。
+summary: 第一篇 Build In Public。先说清楚我要做什么、为什么；再一步步把站搭起来，每一步先看效果、再讲背后的原理；最后收成一个"写→构建→部署"的闭环。
 prerequisite: 会用命令行和 Git，了解 HTML/CSS 基础。
 series: knowledge-lab
 seriesPart: 1
@@ -9,71 +9,30 @@ published: 2026-09-28
 githubDemo: https://github.com/yuhaoyan04/jianwei
 ---
 
-## 直觉
+## 我想搭的不是一个博客
 
-我想要的不是一个"博客"，而是一个**知识实验室**：每篇内容都按 **直觉 → 数学 → Demo → 现实意义** 展开，能沉淀成模块化的知识结构，而不是一条按时间倒序的流水账。
+我想要的东西很具体，但不是「博客」。
 
-这就对工具有几个硬要求：
+博客是一条按时间倒序的流水账——写一篇、排一篇、旧的沉下去。可我脑子里的知识不是这么长的。一个概念（比如泰勒展开）我想拆成好几篇慢慢写：先讲直觉，再补数学，再做个 Demo，最后聊它怎么用上。这些文章属于同一个主题、彼此关联，慢慢长成一张网，而不是一条倒序的河。
 
-- **写起来要快**：最好直接写 Markdown，不用打开后台、不用点鼠标。
-- **出来的页面要轻**：默认零 JavaScript，文章页能秒开。
-- **能放进组件**：必要时能在文章里嵌入交互 Demo、数学公式、代码沙盒。
-- **部署要免费且全球可达**：推一下 Git 就上线，不用自己维护服务器。
+所以我要的是一个**知识实验室**：内容按「板块 → 模块 → 文章」三级组织，一个概念可以拆成多篇小文章慢慢沉淀。
 
-沿着这四条去选，最终落在 **Astro + MDX + Cloudflare Pages** 这一套。下面先把每一块是什么、为什么讲清楚，再把完整的搭建步骤还原出来。
+我对工具也有几条硬要求：
 
-## 数学（三个模块各自的原理）
+- **写起来要快**——最好直接写 Markdown，不用打开后台、不用点鼠标。
+- **出来的页面要轻**——默认零 JavaScript，文章页能秒开。
+- **能嵌组件**——必要时能在文章里塞一个交互 Demo、数学公式、代码沙盒。
+- **部署免费且全球可达**——推一下 Git 就上线，不自己养服务器。
 
-### Astro：内容优先的静态站点生成器
+沿着这四条选，最后落在 **Astro + MDX + Cloudflare Pages** 这一套。
 
-Astro 的核心思想是**内容优先、零 JS 默认**。它的工作方式是：
+下面我不打算先把这三者各自的原理整块讲一遍——那样太干，读完还是不会搭。我直接开始动手，走到哪一步用到哪个，就地把「为什么」讲清楚。而且每一步我都会**先让你看到效果，再讲它背后的原理**——我觉得这是把技术讲明白最省力的办法。
 
-1. 你在 `src/pages/` 下写 `.astro` 页面或 Markdown/MDX。
-2. 构建时，Astro 把每个页面**编译成纯 HTML**。除非你显式引入交互组件，否则发到浏览器的就是 HTML + CSS，**一行 JavaScript 都没有**。
-3. 需要交互时，用"孤岛架构（Islands）"：只有页面里那块真正需要交互的区域才会被注水（hydrate）成 JS 组件，其余部分仍是静态 HTML。
+## 一步步搭起来
 
-这意味着一个文章页可以做到：首屏 HTML 几十 KB，无 JS 阻塞，CDN 缓存命中即返回。对内容站来说，这是体验和性能的最优解。
+### 1. 起项目：先让它跑起来
 
-Astro 还提供 **Content Collections**：用文件系统当 CMS，再用一个 schema（基于 Zod）约束每篇文章的 frontmatter 字段。写错字段名、漏填必填项，构建直接报错——相当于把"内容规范"写进了类型系统。
-
-### MDX：Markdown + 组件
-
-MDX = Markdown 语法 + 可以直接写 JSX/组件。在文章里你可以：
-
-- 用标准 Markdown 写正文（标题、列表、代码块）。
-- 在任意位置插入一个 Astro/Vue/React 组件，比如一个交互式图表。
-- 在代码块里写 ` ```bash ` 之类语言标签获得语法高亮。
-
-对知识实验室来说，MDX 解决了"纯 Markdown 不够用、又不想上重型 CMS"的矛盾：正文用 Markdown 保持写作速度，需要交互时再"升级"成组件。
-
-### Cloudflare Pages：静态托管 + 边缘 CDN
-
-Cloudflare Pages 是面向静态站点的托管平台，它的模型很简单：
-
-- **连接一个 GitHub 仓库**，指定构建命令（如 `pnpm build`）和输出目录（如 `dist`）。
-- 每次 `git push`，Cloudflare 拉取代码、跑构建、把 `dist` 部署到全球边缘节点。
-- 默认给你一个 `*.pages.dev` 域名，也可以绑自定义域名。
-- 全程免费额度对个人站完全够用。
-
-因为站点是纯静态的，部署后每一个 URL 对应一个预渲染 HTML 文件，CDN 直接缓存返回——没有服务器进程、没有数据库连接、没有冷启动。
-
-### 成本模型
-
-把上面三者乘起来，总拥有成本可以这样近似：
-
-$$
-\text{TCO} \approx \underbrace{\text{托管费}}_{\approx 0} + \underbrace{\text{运维心智}}_{\text{Git 即版本，文件即 CMS}} + \underbrace{\text{迭代速度}^{-1}}_{\text{push 即上线}}
-$$
-
-每一项都被压到接近下限，这正是"够用且极简"的工程选择。
-
-## Demo（一步一步搭起来）
-
-下面是把这个站从零搭到上线的完整步骤。
-
-### 1. 环境与脚手架
-
-Node 与 pnpm 就绪后，初始化项目：
+Node 和 pnpm 就绪后，建目录、装依赖：
 
 ```bash
 mkdir knowledge-lab && cd knowledge-lab
@@ -82,35 +41,31 @@ pnpm add astro @astrojs/mdx @astrojs/check typescript
 pnpm add remark-math rehype-katex rehype-slug rehype-autolink-headings katex
 ```
 
-`astro.config.mjs` 里挂上 MDX 集成和 Markdown 插件链：
+效果先看：`pnpm dev` 起来后打开 http://localhost:4321，首页能渲染。我顺手打开开发者工具看了眼文章页的源码——**一个 `<script>` 标签都没有**，首屏就是几十 KB 的纯 HTML。
 
-```js
-import { defineConfig } from 'astro/config';
-import mdx from '@astrojs/mdx';
+这就是我选 Astro 的原因。它默认「内容优先、零 JS」：构建时把每个页面编译成纯 HTML，除非你显式引入交互组件，否则发到浏览器的就是 HTML + CSS，一行 JavaScript 都不带。
 
-export default defineConfig({
-  site: 'https://jianwei-lab.pages.dev',
-  trailingSlash: 'never',
-  integrations: [mdx()],
-  markdown: {
-    syntaxHighlight: 'shiki',
-    remarkPlugins: [remarkMath],
-    rehypePlugins: [
-      rehypeKatex,
-      rehypeSlug,
-      [rehypeAutolinkHeadings, { behavior: 'append', content: '#', headingProperties: { className: ['anchor-target'] } }],
-    ],
-  },
-});
+那需要交互怎么办？Astro 用的是**孤岛架构（Islands）**：只有页面上那块真正需要交互的区域才会被「注水」成 JS 组件，其余部分依旧是静态 HTML。对内容站来说，这意味着首屏快得不像话，而交互又随时能加。
+
+Astro 还给了 **Content Collections**：直接拿文件系统当 CMS，再用一个基于 Zod 的 schema 约束每篇文章的 frontmatter。字段写错、必填漏填，构建当场报错——相当于把「内容规范」写进了类型系统。第 2 步你会看到它长什么样。
+
+### 2. 内容怎么组织：一个概念拆成几篇
+
+先举我自己的真实例子。我想写「泰勒展开」，但它是个大概念，一篇塞不下也讲不透。于是我把它拆成：
+
+- 泰勒展开（一）：从直线到曲线
+- 泰勒展开（二）：余项与误差
+- 泰勒展开（三）：多元推广
+
+这三篇共享同一个模块（我管它叫 series，这里是 `taylor-expansion`），用 `seriesPart` 1 / 2 / 3 排序。而 `taylor-expansion` 又属于「数学与金融」这个板块。三级结构就出来了：**板块 → 模块 → 文章**，对应的 URL 长这样：
+
+```
+/math-finance/taylor-expansion/taylor-1
+ │          │                  │
+ 板块        模块(series)        文章
 ```
 
-- `remark-math` 让 Markdown 识别 `$...$` 与 `$$...$$`。
-- `rehype-katex` 把它们渲染成 KaTeX HTML。
-- `rehype-slug` 给每个标题加 `id`，`rehype-autolink-headings` 给标题挂锚点链接，方便目录跳转。
-
-### 2. 内容集合与 schema
-
-在 `src/content.config.ts` 定义两个集合——**series（模块）** 和 **articles（文章）**：
+这套结构是用 schema 定义的。我在 `content.config.ts` 里写两个集合——模块和文章：
 
 ```ts
 import { defineCollection, z } from 'astro:content';
@@ -144,22 +99,22 @@ const articles = defineCollection({
 export const collections = { series, articles };
 ```
 
-注意文章 schema 里没有 `section` 字段——**板块从所属模块派生**，避免冗余和不一致。一个概念拆成多篇小文章时，它们共享同一个 `series`，用 `seriesPart` 排序。
+有个细节我纠结过一小会儿：文章要不要也标一个 `section` 字段？后来想清楚了——**不要**。文章已经通过 `series` 归到某个模块，而模块已经标了板块，文章的板块从模块派生就行。多一个字段就多一处可能写不一致的地方，能省则省。这种「让数据自己推导、别重复存储」的小习惯，写多了你会发现处处省心。
 
-### 3. 路由与布局
+### 3. 路由：文件即 URL
 
-用文件式路由搭出三级 URL 结构：
+继续看效果：上面的 URL `/math-finance/taylor-expansion/taylor-1`，它对应的是文件系统里的路径。Astro 用文件式路由，我在 `src/pages/` 下放一个动态路由文件：
 
 ```
 src/pages/
-  index.astro                         # 首页
-  posts.astro                         # 全部文章（按年）
-  [section]/index.astro               # 板块页
-  [section]/[module]/index.astro      # 模块页
-  [section]/[module]/[article].astro  # 文章页
+  index.astro                          # /                    首页
+  posts.astro                          # /posts               全部文章
+  [section]/index.astro               # /math-finance        板块页
+  [section]/[module]/index.astro       # /math-finance/taylor-expansion   模块页
+  [section]/[module]/[article].astro   # /math-finance/taylor-expansion/taylor-1  文章页
 ```
 
-`[article].astro` 里用 `getStaticPaths` 把每篇文章映射成一条静态路径：
+方括号是动态参数。`[article].astro` 里用 `getStaticPaths` 把每篇文章映射成一条静态路径，构建时全部预渲染成 HTML：
 
 ```astro
 ---
@@ -169,8 +124,8 @@ import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
   return articles.map((entry) => {
-    const [section, module] = entry.id.split('/');
-    return { params: { section, module, article: entry.id.split('/').pop() }, props: { entry } };
+    const [section, module, article] = entry.id.split('/');
+    return { params: { section, module, article }, props: { entry } };
   });
 }
 const { entry } = Astro.props;
@@ -181,57 +136,87 @@ const { Content } = await entry.render();
 </ArticleLayout>
 ```
 
-文章布局里固定渲染：标题 → 摘要 → meta（日期 · 分钟 · 字数）→ 先修要求 → 目录 → 正文 → Demo 链接 → 标签 → 上一篇/下一篇。这套模板就是"知识实验室"的页面骨架。
+原理就一句：**构建时把所有路径穷举出来，每个生成一个 HTML 文件**。所以部署后每个 URL 对应一个预渲染文件，CDN 直接缓存返回——这是后面「秒开」和「零运维」的根基。
 
-### 4. 数学公式
+### 4. 让 Markdown 会算术
 
-写文章时直接用：
-
-```md
-行内公式 $E = mc^2$，或者块级：
+先看效果：我在文章里写一行 `$E=mc^2$`，保存、刷新——公式就地渲染出来了。再写个块级的：
 
 $$
 \int_a^b f(x)\,dx
 $$
+
+够用了。
+
+原理是 Markdown 的插件链。Markdown 先被解析成一棵语法树（AST），然后两道处理接力：`remark-math` 负责认出 `$...$` 和 `$$...$$`，`rehype-katex` 负责把它们渲染成 KaTeX 的 HTML。在 `astro.config.mjs` 里挂上：
+
+```js
+remarkPlugins: [remarkMath],
+rehypePlugins: [rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'append' }], rehypeKatex],
 ```
 
-KaTeX 的 CSS 在 `<head>` 里引入一次，全站生效。
+KaTeX 的 CSS 在 `<head>` 里引一次，全站生效。这套我后面写数学类文章会重度依赖，所以一开始就接好。
 
-### 5. 主题与多风格
+### 5. 一套 CSS 变量换三张皮
 
-样式系统用 CSS 变量 + `data-*` 属性切换。`<html>` 上挂三个开关：
+效果先看：点右上角的 ◐，把风格从「見微」切到「墨」——整站瞬间变成纯黑白；再切「石」——变成冷蓝灰。DOM 一个节点没动，只是十几个 CSS 变量的值换了。
 
-- `data-preset`：`cream`（見微，暖色）/ `ink`（墨，纯黑白）/ `slate`（石，冷蓝）。
-- `data-font`：`serif`（宋）/ `kai`（楷）/ `sans`（黑）/ `mono`（码），控制标题与 wordmark 字体。
-- `data-mode`：`light` / `dark`。
+原理是把所有颜色都抽成变量，再用 `data-*` 属性切换。`<html>` 上挂三个开关：
 
-选择持久化在 `localStorage`，并在 `<head>` 里放一段**同步执行的早期脚本**，在页面绘制前就把属性设好，避免主题闪烁（FOUC）。
+- `data-preset`：`cream`（見微）/ `ink`（墨）/ `slate`（石）——换配色。
+- `data-font`：`serif`（宋）/ `kai`（楷）/ `sans`（黑）/ `mono`（码）——换正文字体。
+- `data-mode`：`light` / `dark`——换明暗。
 
-### 6. 构建与部署
+CSS 里就是这么重定义的，每个预设就是一组变量赋值：
 
-本地构建验证：
-
-```bash
-pnpm build      # 输出到 dist/
-pnpm preview    # 本地预览构建产物
+```css
+:root[data-preset="ink"]   { --bg:#fff;     --text:#0a0a0a; --accent:#0a0a0a; }
+:root[data-preset="slate"] { --bg:#f1f4f9;  --text:#1e293b; --accent:#2563eb; }
 ```
 
-部署到 Cloudflare Pages：
+这里我踩过一个坑：主题放在 `localStorage` 里，如果等页面加载完再读、再设属性，刷新时会先闪一下默认主题再切到用户选的——这玩意有个名字叫 FOUC（Flash of Unstyled Content）。修法是在 `<head>` 里放一段**同步执行**的小脚本，在浏览器绘制之前就把属性设好：
 
-1. 把代码推到 GitHub。
-2. 在 Cloudflare Pages 控制台连接该仓库。
-3. 构建命令填 `pnpm build`，输出目录填 `dist`。
-4. 之后每次 `git push`，Cloudflare 自动构建并部署到全球边缘节点。
+```html
+<script is:inline>
+  (function () {
+    var v = { preset: 'cream', font: 'serif', mode: 'auto' };
+    try {
+      var s = JSON.parse(localStorage.getItem('kw-theme') || '{}');
+      if (s.preset) v.preset = s.preset;
+      if (s.font) v.font = s.font;
+      if (s.mode) v.mode = s.mode;
+    } catch (e) {}
+    var sys = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var root = document.documentElement;
+    root.dataset.preset = v.preset;
+    root.dataset.font = v.font;
+    root.dataset.mode = v.mode === 'auto' ? sys : v.mode;
+  })();
+</script>
+```
 
-完整闭环就一句话：
+`is:inline` 让 Astro 原样输出这段脚本、不打包不延迟。就这一段，刷新不再闪。
+
+### 6. push 即上线
+
+最后看效果：代码推到 GitHub，`git push` 一回车——Cloudflare 拉代码、跑 `pnpm build`、把 `dist` 部署到全球边缘节点。打开 https://jianwei-note.pages.dev ，文章已经在线了。
+
+原理：站点是纯静态的，部署后每个 URL 对应一个预渲染 HTML 文件，CDN 缓存命中即返回。没有服务器进程、没有数据库连接、没有冷启动——这是「秒开」和「零运维」的另一半根基。
+
+## 收成一个闭环
+
+把上面六步收起来，「写 → 构建 → 部署」就被压成了一条命令：
 
 ```bash
 git add . && git commit -m "post: new article" && git push
 ```
 
-## 现实意义
+这个站本身，就是这个「知识实验室」的第一个实验品。把三件事的成本粗略乘起来：
 
-- 这个站本身就是"知识实验室"的第一个实验品：用最小工具栈，把"写 → 构建 → 部署"压成一条 Git 命令。
-- 内容按 **板块 → 模块 → 文章** 组织，一个概念可以拆成多篇小文章，慢慢长成一张知识网。
-- 默认零 JS、静态 CDN 缓存，读者打开即秒开，体验和心智负担都做到极简。
-- 如果你也想搭一个，这套流程可以直接复用——欢迎来 GitHub 提 issue 交流。
+$$
+\text{TCO} \approx \text{托管费} + \text{运维心智} + \text{迭代延迟}
+$$
+
+托管费≈0（免费额度对个人站绰绰有余），运维心智≈「Git 当版本、文件当 CMS」，迭代延迟≈「push 即上线」。三项都被压到了接近下限——这是我想要的「够用且极简」。
+
+接下来就是慢慢写了：一个概念拆成几篇，模块越积越多，长着长着就成了一张网。如果你也想搭一个，这套流程可以直接照搬——欢迎来 GitHub 提 issue 聊。

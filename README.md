@@ -1,16 +1,16 @@
 <div align="center">
-  <img src="docs/banner.svg" width="780" alt="见微 / Jianwei" />
+  <img src="docs/banner.svg" width="780" alt="見微 / Jianwei" />
 </div>
 
-# 见微 / Jianwei
+# 見微 / Jianwei
 
 > 从细节，看见世界的结构。
 
-见微是一个**内容优先**的个人知识实验室。每篇文章按 **直觉 → 数学 → Demo → 现实意义** 展开，内容按 **板块 → 模块 → 文章** 三级组织，一个概念可拆成多篇小文章慢慢长成一张知识网。
+見微是一个**内容优先**的个人知识实验室。每篇文章按**总分总**展开——先说清楚要做什么、为什么，再一步步搭起来（每一步**先看效果、再讲原理**），最后收成一个闭环。内容按 **板块 → 模块 → 文章** 三级组织，一个概念可拆成多篇小文章慢慢长成一张知识网。
 
 站点默认零 JavaScript、静态 CDN 缓存，读者打开即秒开。
 
-🟢 **在线预览**：<https://jianwei-lab.pages.dev>
+🟢 **在线预览**：<https://jianwei-note.pages.dev>
 
 ---
 
@@ -20,7 +20,7 @@
 - **三级内容模型** — 板块（Section）→ 模块（Series）→ 文章（Article），用文件系统当 CMS，Git 即版本控制。
 - **类型化 frontmatter** — 基于 Zod 的 Content Collections schema，字段写错构建即报错。
 - **MDX + KaTeX** — 正文 Markdown 写作速度，需要时升级为组件；数学公式 `$...$` / `$$...$$` 原生支持。
-- **多风格 + 多字体 + 亮暗** — 三套配色（见微 / 墨 / 石）× 四种字体（宋 / 楷 / 黑 / 码）× 亮/暗/跟随系统，读者自助切换并持久化。
+- **多风格 + 多字体 + 亮暗** — 三套配色（見微 / 墨 / 石）× 四种字体（宋 / 楷 / 黑 / 码）× 亮/暗/跟随系统，读者自助切换并持久化。
 - **边缘部署** — Cloudflare Pages 全球 CDN，`git push` 或一条命令即上线。
 
 ## 技术栈
@@ -122,26 +122,28 @@ knowledge-lab/
    githubDemo: https://github.com/your/repo
    ---
 
-   ## 直觉
-   …
+   ## 我要干什么（总）
+   动机、要解决的问题、为什么这么做。
 
-   ## 数学
+   ## 一步步做（分）
+   ### 第一步：先看效果
+   …（先举一个具体的例子）
+
+   ### 再讲原理
+   …（然后推导 / 写公式）
    $$ \cdots $$
 
-   ## Demo
-   …
-
-   ## 现实意义
-   …
+   ## 收尾（总）
+   闭环、下一步。
    ```
 
-保存后 `pnpm dev` 即时预览。文章模板固定渲染：标题 → 摘要 → meta（日期·分钟·字数）→ 先修要求 → 目录 → 正文 → Demo 链接 → 标签 → 上一篇/下一篇。
+保存后 `pnpm dev` 即时预览。文章布局固定渲染：标题 → 摘要 → meta（日期·分钟·字数）→ 先修要求 → 目录 → 正文 → Demo 链接 → 标签 → 上一篇/下一篇。其中**正文（`<Content/>`）的 H2 章节自由组织**——上面的「总分总」是建议结构，核心是「先说动机，再一步步做、每步先举例再讲原理，最后收尾」，不必硬套固定标题。
 
 ## 主题与字体
 
 右上角 ◐ 打开面板，可切换：
 
-- **风格**：见微（暖奶白） / 墨（纯黑白） / 石（冷蓝灰）
+- **风格**：見微（暖奶白） / 墨（纯黑白） / 石（冷蓝灰）
 - **字体**：宋（衬线） / 楷（楷书） / 黑（无衬线） / 码（等宽）
 - **明暗**：亮 / 暗 / 自动跟随系统
 
@@ -155,7 +157,7 @@ knowledge-lab/
 
 ```bash
 pnpm build
-pnpm exec wrangler pages deploy dist --project-name jianwei-lab --branch main --commit-dirty
+pnpm exec wrangler pages deploy dist --project-name jianwei-note --branch main --commit-dirty
 ```
 
 **方式二：连接 GitHub 自动部署**
@@ -168,8 +170,8 @@ pnpm exec wrangler pages deploy dist --project-name jianwei-lab --branch main --
 
 ## 相关
 
-- 首篇 Build In Public 文章：<https://jianwei-lab.pages.dev/build-in-public/knowledge-lab/hello-knowledge-lab/>
-- 详细搭建过程见上文「Demo」一节。
+- 首篇 Build In Public 文章：<https://jianwei-note.pages.dev/build-in-public/knowledge-lab/hello-knowledge-lab/>
+- 详细搭建过程见首篇文章正文。
 
 ## License
 
