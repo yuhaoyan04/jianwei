@@ -1,0 +1,11 @@
+name = "jianwei"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-09-23"
+
+# Read counter KV namespace.
+# Create it with:  npx wrangler kv namespace create VIEWS
+# Then paste the returned id below (and set the same binding in
+# Cloudflare Pages dashboard → Settings → Functions → KV namespace bindings).
+[[kv_namespaces]]
+binding = "VIEWS"
+id = "296efd106d6b4b3298b574021ab6a2ac"

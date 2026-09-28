@@ -39,6 +39,8 @@ const updatedStr = d.updated
       <span>{minutes} 分钟</span>
       <span class="dot">·</span>
       <span>{words} 字</span>
+      <span class="dot">·</span>
+      <span class="view-counter"><span class="vc-count">—</span> 次阅读</span>
       {updatedStr && (
         <>
           <span class="dot">·</span>
@@ -76,5 +78,29 @@ const updatedStr = d.updated
       <div class="row"><span class="k">板块</span><span>{section.title}</span></div>
       <div class="row"><span class="k">链接</span><span>{Astro.url.pathname}</span></div>
     </div>
+
+    <script is:inline define:vars={{ slug: Astro.url.pathname }}>
+      (function () {
+        var el = document.querySelector('.view-counter .vc-count');
+        if (!el) return;
+        var key = 'vc-' + slug;
+        var counted = sessionStorage.getItem(key);
+        var url = counted
+          ? '/api/views?slug=' + encodeURIComponent(slug)
+          : '/api/views';
+        var opts = counted
+          ? { method: 'GET' }
+          : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: slug }) };
+        fetch(url, opts)
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (d && typeof d.views === 'number') {
+              el.textContent = d.views.toLocaleString();
+              if (!counted) sessionStorage.setItem(key, '1');
+            }
+          })
+          .catch(function () {});
+      })();
+    </script>
   </article>
 </BaseLayout>
