@@ -1,0 +1,237 @@
+---
+title: Hello Knowledge Lab——从零搭一个内容优先的个人站
+summary: 第一篇 Build In Public。讲清楚 Astro、MDX、Cloudflare Pages 各自的原理与技术细节，以及我是如何一步一步把这个站搭起来的。
+prerequisite: 会用命令行和 Git，了解 HTML/CSS 基础。
+series: knowledge-lab
+seriesPart: 1
+tags: [项目, 工作流, Astro, MDX, Cloudflare Pages]
+published: 2026-09-28
+githubDemo: https://github.com/
+---
+
+## 直觉
+
+我想要的不是一个"博客"，而是一个**知识实验室**：每篇内容都按 **直觉 → 数学 → Demo → 现实意义** 展开，能沉淀成模块化的知识结构，而不是一条按时间倒序的流水账。
+
+这就对工具有几个硬要求：
+
+- **写起来要快**：最好直接写 Markdown，不用打开后台、不用点鼠标。
+- **出来的页面要轻**：默认零 JavaScript，文章页能秒开。
+- **能放进组件**：必要时能在文章里嵌入交互 Demo、数学公式、代码沙盒。
+- **部署要免费且全球可达**：推一下 Git 就上线，不用自己维护服务器。
+
+沿着这四条去选，最终落在 **Astro + MDX + Cloudflare Pages** 这一套。下面先把每一块是什么、为什么讲清楚，再把完整的搭建步骤还原出来。
+
+## 数学（三个模块各自的原理）
+
+### Astro：内容优先的静态站点生成器
+
+Astro 的核心思想是**内容优先、零 JS 默认**。它的工作方式是：
+
+1. 你在 `src/pages/` 下写 `.astro` 页面或 Markdown/MDX。
+2. 构建时，Astro 把每个页面**编译成纯 HTML**。除非你显式引入交互组件，否则发到浏览器的就是 HTML + CSS，**一行 JavaScript 都没有**。
+3. 需要交互时，用"孤岛架构（Islands）"：只有页面里那块真正需要交互的区域才会被注水（hydrate）成 JS 组件，其余部分仍是静态 HTML。
+
+这意味着一个文章页可以做到：首屏 HTML 几十 KB，无 JS 阻塞，CDN 缓存命中即返回。对内容站来说，这是体验和性能的最优解。
+
+Astro 还提供 **Content Collections**：用文件系统当 CMS，再用一个 schema（基于 Zod）约束每篇文章的 frontmatter 字段。写错字段名、漏填必填项，构建直接报错——相当于把"内容规范"写进了类型系统。
+
+### MDX：Markdown + 组件
+
+MDX = Markdown 语法 + 可以直接写 JSX/组件。在文章里你可以：
+
+- 用标准 Markdown 写正文（标题、列表、代码块）。
+- 在任意位置插入一个 Astro/Vue/React 组件，比如一个交互式图表。
+- 在代码块里写 ` ```bash ` 之类语言标签获得语法高亮。
+
+对知识实验室来说，MDX 解决了"纯 Markdown 不够用、又不想上重型 CMS"的矛盾：正文用 Markdown 保持写作速度，需要交互时再"升级"成组件。
+
+### Cloudflare Pages：静态托管 + 边缘 CDN
+
+Cloudflare Pages 是面向静态站点的托管平台，它的模型很简单：
+
+- **连接一个 GitHub 仓库**，指定构建命令（如 `pnpm build`）和输出目录（如 `dist`）。
+- 每次 `git push`，Cloudflare 拉取代码、跑构建、把 `dist` 部署到全球边缘节点。
+- 默认给你一个 `*.pages.dev` 域名，也可以绑自定义域名。
+- 全程免费额度对个人站完全够用。
+
+因为站点是纯静态的，部署后每一个 URL 对应一个预渲染 HTML 文件，CDN 直接缓存返回——没有服务器进程、没有数据库连接、没有冷启动。
+
+### 成本模型
+
+把上面三者乘起来，总拥有成本可以这样近似：
+
+$$
+\text{TCO} \approx \underbrace{\text{托管费}}_{\approx 0} + \underbrace{\text{运维心智}}_{\text{Git 即版本，文件即 CMS}} + \underbrace{\text{迭代速度}^{-1}}_{\text{push 即上线}}
+$$
+
+每一项都被压到接近下限，这正是"够用且极简"的工程选择。
+
+## Demo（一步一步搭起来）
+
+下面是把这个站从零搭到上线的完整步骤。
+
+### 1. 环境与脚手架
+
+Node 与 pnpm 就绪后，初始化项目：
+
+```bash
+mkdir knowledge-lab && cd knowledge-lab
+pnpm init
+pnpm add astro @astrojs/mdx @astrojs/check typescript
+pnpm add remark-math rehype-katex rehype-slug rehype-autolink-headings katex
+```
+
+`astro.config.mjs` 里挂上 MDX 集成和 Markdown 插件链：
+
+```js
+import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+
+export default defineConfig({
+  site: 'https://knowledge-lab.pages.dev',
+  trailingSlash: 'never',
+  integrations: [mdx()],
+  markdown: {
+    syntaxHighlight: 'shiki',
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [
+      rehypeKatex,
+      rehypeSlug,
+      [rehypeAutolinkHeadings, { behavior: 'append', content: '#', headingProperties: { className: ['anchor-target'] } }],
+    ],
+  },
+});
+```
+
+- `remark-math` 让 Markdown 识别 `$...$` 与 `$$...$$`。
+- `rehype-katex` 把它们渲染成 KaTeX HTML。
+- `rehype-slug` 给每个标题加 `id`，`rehype-autolink-headings` 给标题挂锚点链接，方便目录跳转。
+
+### 2. 内容集合与 schema
+
+在 `src/content.config.ts` 定义两个集合——**series（模块）** 和 **articles（文章）**：
+
+```ts
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+
+const series = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/series' }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    section: z.enum(['math-finance', 'ai-frontier', 'reading-cognition', 'build-in-public']),
+    tags: z.array(z.string()).default([]),
+    order: z.number().default(0),
+  }),
+});
+
+const articles = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/articles' }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    prerequisite: z.string().default('无'),
+    series: z.string(),
+    seriesPart: z.number(),
+    tags: z.array(z.string()).default([]),
+    published: z.coerce.date(),
+    githubDemo: z.string().url().optional(),
+  }),
+});
+
+export const collections = { series, articles };
+```
+
+注意文章 schema 里没有 `section` 字段——**板块从所属模块派生**，避免冗余和不一致。一个概念拆成多篇小文章时，它们共享同一个 `series`，用 `seriesPart` 排序。
+
+### 3. 路由与布局
+
+用文件式路由搭出三级 URL 结构：
+
+```
+src/pages/
+  index.astro                         # 首页
+  posts.astro                         # 全部文章（按年）
+  [section]/index.astro               # 板块页
+  [section]/[module]/index.astro      # 模块页
+  [section]/[module]/[article].astro  # 文章页
+```
+
+`[article].astro` 里用 `getStaticPaths` 把每篇文章映射成一条静态路径：
+
+```astro
+---
+import { getCollection } from 'astro:content';
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles.map((entry) => {
+    const [section, module] = entry.id.split('/');
+    return { params: { section, module, article: entry.id.split('/').pop() }, props: { entry } };
+  });
+}
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<ArticleLayout entry={entry}>
+  <Content />
+</ArticleLayout>
+```
+
+文章布局里固定渲染：标题 → 摘要 → meta（日期 · 分钟 · 字数）→ 先修要求 → 目录 → 正文 → Demo 链接 → 标签 → 上一篇/下一篇。这套模板就是"知识实验室"的页面骨架。
+
+### 4. 数学公式
+
+写文章时直接用：
+
+```md
+行内公式 $E = mc^2$，或者块级：
+
+$$
+\int_a^b f(x)\,dx
+$$
+```
+
+KaTeX 的 CSS 在 `<head>` 里引入一次，全站生效。
+
+### 5. 主题与多风格
+
+样式系统用 CSS 变量 + `data-*` 属性切换。`<html>` 上挂三个开关：
+
+- `data-preset`：`cream`（见微，暖色）/ `ink`（墨，纯黑白）/ `slate`（石，冷蓝）。
+- `data-font`：`serif`（宋）/ `kai`（楷）/ `sans`（黑）/ `mono`（码），控制标题与 wordmark 字体。
+- `data-mode`：`light` / `dark`。
+
+选择持久化在 `localStorage`，并在 `<head>` 里放一段**同步执行的早期脚本**，在页面绘制前就把属性设好，避免主题闪烁（FOUC）。
+
+### 6. 构建与部署
+
+本地构建验证：
+
+```bash
+pnpm build      # 输出到 dist/
+pnpm preview    # 本地预览构建产物
+```
+
+部署到 Cloudflare Pages：
+
+1. 把代码推到 GitHub。
+2. 在 Cloudflare Pages 控制台连接该仓库。
+3. 构建命令填 `pnpm build`，输出目录填 `dist`。
+4. 之后每次 `git push`，Cloudflare 自动构建并部署到全球边缘节点。
+
+完整闭环就一句话：
+
+```bash
+git add . && git commit -m "post: new article" && git push
+```
+
+## 现实意义
+
+- 这个站本身就是"知识实验室"的第一个实验品：用最小工具栈，把"写 → 构建 → 部署"压成一条 Git 命令。
+- 内容按 **板块 → 模块 → 文章** 组织，一个概念可以拆成多篇小文章，慢慢长成一张知识网。
+- 默认零 JS、静态 CDN 缓存，读者打开即秒开，体验和心智负担都做到极简。
+- 如果你也想搭一个，这套流程可以直接复用——欢迎来 GitHub 提 issue 交流。

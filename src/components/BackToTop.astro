@@ -1,0 +1,20 @@
+---
+---
+<button class="to-top" id="to-top" aria-label="返回顶部" title="返回顶部">↑</button>
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('to-top');
+    function onScroll() {
+      if (!btn) return;
+      if (window.scrollY > 400) btn.classList.add('show');
+      else btn.classList.remove('show');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    if (btn) {
+      btn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+    onScroll();
+  })();
+</script>

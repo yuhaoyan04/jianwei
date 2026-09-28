@@ -1,0 +1,41 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <BaseHead title={title} description={description} />
+  <script is:inline>
+    (function () {
+      var v = { preset: 'cream', font: 'serif', mode: 'auto' };
+      try {
+        var s = JSON.parse(localStorage.getItem('kw-theme') || '{}');
+        if (s.preset) v.preset = s.preset;
+        if (s.font) v.font = s.font;
+        if (s.mode) v.mode = s.mode;
+      } catch (e) {}
+      var sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var root = document.documentElement;
+      root.dataset.preset = v.preset;
+      root.dataset.font = v.font;
+      root.dataset.mode = v.mode === 'auto' ? sys : v.mode;
+    })();
+  </script>
+</head>
+<body>
+  <Header />
+  <main class="container">
+    <slot />
+  </main>
+  <Footer />
+  <BackToTop />
+</body>
+</html>

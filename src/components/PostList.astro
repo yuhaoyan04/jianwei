@@ -1,0 +1,50 @@
+---
+import { fmtDate } from '../lib/content';
+interface Item {
+  entry: any;
+  href: string;
+}
+interface Props {
+  items: Item[];
+  groupByYear?: boolean;
+}
+const { items, groupByYear = false } = Astro.props;
+
+type Row =
+  | { type: 'year'; year: string; count: number }
+  | { type: 'item'; item: Item };
+
+const rows: Row[] = [];
+if (groupByYear) {
+  const map: Record<string, Item[]> = {};
+  for (const it of items) {
+    const y = String(new Date(it.entry.data.published).getFullYear());
+    if (!map[y]) map[y] = [];
+    map[y].push(it);
+  }
+  const years = Object.keys(map).sort((a, b) => Number(b) - Number(a));
+  for (const y of years) {
+    rows.push({ type: 'year', year: y, count: map[y].length });
+    for (const it of map[y]) rows.push({ type: 'item', item: it });
+  }
+} else {
+  for (const it of items) rows.push({ type: 'item', item: it });
+}
+---
+<ol class="post-list">
+  {rows.map((r) => r.type === 'year' ? (
+    <li class="year-sep">
+      <div class="year-head">
+        <h3>{r.year}</h3>
+        <span class="count">{r.count} 篇</span>
+      </div>
+    </li>
+  ) : (
+    <li>
+      <a href={r.item.href}>
+        <span class="date">{fmtDate(r.item.entry.data.published)}</span>
+        <span class="title">{r.item.entry.data.title}</span>
+      </a>
+    </li>
+  ))}
+</ol>

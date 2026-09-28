@@ -1,0 +1,10 @@
+---
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+<div class="prereq">
+  <div class="plabel">PREREQUISITE · 先修</div>
+  <p>{text}</p>
+</div>

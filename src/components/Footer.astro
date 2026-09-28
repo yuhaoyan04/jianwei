@@ -1,0 +1,13 @@
+---
+import { SECTIONS } from '../lib/sections';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="links">
+    <a href="/">首页</a>
+    {SECTIONS.map((s) => <a href={`/${s.id}`}>{s.title}</a>)}
+    <a href="/posts">全部</a>
+    <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+  <div>© {year} 见微 / Jianwei · 从细节，看见世界的结构。</div>
+</footer>

@@ -1,0 +1,26 @@
+---
+import { articleHref } from '../lib/content';
+interface Props {
+  section: string;
+  seriesId: string;
+  prev?: any;
+  next?: any;
+}
+const { section, seriesId, prev, next } = Astro.props;
+---
+{(prev || next) && (
+  <nav class="prevnext">
+    {prev ? (
+      <a class="prev" href={articleHref(section, seriesId, prev.id)}>
+        <span class="dir">← 上一篇</span>
+        <span class="tt">{prev.data.title}</span>
+      </a>
+    ) : <span></span>}
+    {next ? (
+      <a class="next" href={articleHref(section, seriesId, next.id)}>
+        <span class="dir">下一篇 →</span>
+        <span class="tt">{next.data.title}</span>
+      </a>
+    ) : <span></span>}
+  </nav>
+)}

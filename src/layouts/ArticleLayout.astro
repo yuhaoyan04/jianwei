@@ -1,0 +1,80 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Prereq from '../components/Prereq.astro';
+import PrevNext from '../components/PrevNext.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import { readingTime, wordCount } from '../lib/readingTime';
+interface Props {
+  entry: any;
+  section: any;
+  series: any;
+  prev?: any;
+  next?: any;
+  headings?: any[];
+}
+const { entry, section, series, prev, next, headings = [] } = Astro.props;
+const d = entry.data;
+const minutes = readingTime(entry.body);
+const words = wordCount(entry.body);
+const dateStr = new Date(d.published).toLocaleDateString('zh-CN', {
+  year: 'numeric', month: 'long', day: 'numeric',
+});
+const updatedStr = d.updated
+  ? new Date(d.updated).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })
+  : null;
+---
+<BaseLayout title={`${d.title} · ${section.title}`} description={d.summary}>
+  <article class="article">
+    <div class="crumb-back">
+      <a href={`/${section.id}`}>{section.title}</a>
+      <span class="faint"> / </span>
+      <a href={`/${section.id}/${series.id}`}>{series.data.title}</a>
+    </div>
+
+    <h1>{d.title}</h1>
+    <p class="summary">{d.summary}</p>
+    <div class="meta">
+      <span>{dateStr}</span>
+      <span class="dot">·</span>
+      <span>{minutes} 分钟</span>
+      <span class="dot">·</span>
+      <span>{words} 字</span>
+      {updatedStr && (
+        <>
+          <span class="dot">·</span>
+          <span>更新 {updatedStr}</span>
+        </>
+      )}
+    </div>
+
+    <Prereq text={d.prerequisite} />
+    <TableOfContents headings={headings} />
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    {d.githubDemo && (
+      <a class="demo-block" href={d.githubDemo} target="_blank" rel="noopener noreferrer">
+        <span class="ico">⚡</span>
+        <div>
+          <div class="t">GitHub Demo</div>
+          <div class="s">可运行示例 / 源码</div>
+        </div>
+      </a>
+    )}
+
+    <div class="tags">
+      {d.tags.map((t: string) => <span class="tag">#{t}</span>)}
+    </div>
+
+    <PrevNext section={section.id} seriesId={series.id} prev={prev} next={next} />
+
+    <div class="article-footer">
+      <div class="row"><span class="k">标题</span><span>{d.title}</span></div>
+      <div class="row"><span class="k">专题</span><span>{series.data.title}</span></div>
+      <div class="row"><span class="k">板块</span><span>{section.title}</span></div>
+      <div class="row"><span class="k">链接</span><span>{Astro.url.pathname}</span></div>
+    </div>
+  </article>
+</BaseLayout>

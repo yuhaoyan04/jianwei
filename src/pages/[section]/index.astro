@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { seriesForSection, articlesForSeries, seriesHref, articleHref, sortByPublished } from '../../lib/content';
+import { SECTIONS } from '../../lib/sections';
+
+export async function getStaticPaths() {
+  return SECTIONS.map((s) => ({ params: { section: s.id }, props: { section: s } }));
+}
+const { section } = Astro.props;
+const modules = await seriesForSection(section.id);
+const modulesData = await Promise.all(
+  modules.map(async (m) => {
+    const arts = await articlesForSeries(m.id);
+    return { module: m, count: arts.length, latest: arts[0], arts };
+  })
+);
+const allArticles = sortByPublished(modulesData.flatMap((x) => x.arts));
+const items = allArticles.map((a) => ({
+  entry: a,
+  href: articleHref(section.id, a.data.series, a.id),
+}));
+---
+<BaseLayout title={`${section.title} · Knowledge Lab`} description={section.description}>
+  <section class="section-hero">
+    <div class="bar">// {section.subtitle}</div>
+    <h1><span class={`sedot ${section.id}`}></span>{section.title}</h1>
+    <p>{section.description}</p>
+  </section>
+
+  <section>
+    <div class="block-head">
+      <h2>专题 / Modules</h2>
+      <span class="tag">{modules.length} modules</span>
+    </div>
+    {modulesData.length > 0 ? (
+      <ul class="module-list">
+        {modulesData.map(({ module, count, latest, arts }) => (
+          <li>
+            <div class="row">
+              <a class="mt" href={seriesHref(section.id, module.id)}>{module.data.title}</a>
+              <span class="mc">{count} 篇{latest ? ` · 最近 ${new Date(latest.data.published).getFullYear()}` : ''}</span>
+            </div>
+            <div class="md">{module.data.summary}</div>
+            {module.data.tags.length > 0 && (
+              <div class="topics">
+                {module.data.tags.slice(0, 6).map((t: string) => <span>{t}</span>)}
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="empty">这个板块还没有专题。</div>
+    )}
+  </section>
+
+  {items.length > 0 && (
+    <section>
+      <div class="block-head">
+        <h2>全部文章</h2>
+        <span class="tag">{items.length} 篇</span>
+      </div>
+      <PostList items={items} />
+    </section>
+  )}
+</BaseLayout>

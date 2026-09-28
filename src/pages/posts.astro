@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { loadAll, sortByPublished, articleHref } from '../lib/content';
+
+const { articlesAll, seriesMap } = await loadAll();
+const all = sortByPublished(articlesAll);
+const items = all.map((a) => {
+  const s = seriesMap.get(a.data.series);
+  const sectionId = s ? s.data.section : '';
+  return { entry: a, href: articleHref(sectionId, a.data.series, a.id) };
+});
+---
+<BaseLayout title="全部文章 · Knowledge Lab" description="所有文章按时间倒序排列。">
+  <section class="section-hero">
+    <div class="bar">// ALL POSTS</div>
+    <h1>全部文章</h1>
+    <p>共 {items.length} 篇，按时间倒序，按年分组。</p>
+  </section>
+  <section>
+    <PostList items={items} groupByYear={true} />
+  </section>
+</BaseLayout>

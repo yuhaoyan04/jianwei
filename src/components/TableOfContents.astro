@@ -1,0 +1,17 @@
+---
+interface Props {
+  headings: any[];
+}
+const { headings = [] } = Astro.props;
+const h2 = headings.filter((h: any) => h.depth === 2);
+---
+{h2.length > 0 && (
+  <details class="toc-box" open>
+    <summary>目录</summary>
+    <ul>
+      {h2.map((h: any) => (
+        <li><a href={`#${h.slug}`}>{h.text}</a></li>
+      ))}
+    </ul>
+  </details>
+)}

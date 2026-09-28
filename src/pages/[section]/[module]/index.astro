@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SECTIONS } from '../../../lib/sections';
+import {
+  seriesForSection,
+  articlesForSeries,
+  articleHref,
+  fmtDate,
+} from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const paths: any[] = [];
+  for (const s of SECTIONS) {
+    const mods = await seriesForSection(s.id);
+    for (const m of mods) {
+      paths.push({
+        params: { section: s.id, module: m.id },
+        props: { section: s, module: m },
+      });
+    }
+  }
+  return paths;
+}
+const { section, module: moduleEntry } = Astro.props;
+const arts = await articlesForSeries(moduleEntry.id);
+const items = arts.map((a) => ({
+  entry: a,
+  href: articleHref(section.id, moduleEntry.id, a.id),
+}));
+---
+<BaseLayout title={`${moduleEntry.data.title} · ${section.title}`} description={moduleEntry.data.summary}>
+  <section class="module-hero">
+    <div class="crumb">
+      <a href={`/${section.id}`}>{section.title}</a>
+    </div>
+    <h1>{moduleEntry.data.title}</h1>
+    <p>{moduleEntry.data.summary}</p>
+    <div class="partcount">{arts.length} 篇 · 按顺序排列</div>
+  </section>
+
+  <section>
+    <div class="block-head">
+      <h2>文章目录</h2>
+    </div>
+    {items.length > 0 ? (
+      <ol class="part-list">
+        {items.map((it) => (
+          <li>
+            <a href={it.href}>
+              <span class="part">Part {it.entry.data.seriesPart}</span>
+              <span class="title">{it.entry.data.title}</span>
+              <span class="date">{fmtDate(it.entry.data.published)}</span>
+            </a>
+            <div class="md">{it.entry.data.summary}</div>
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <div class="empty">这个专题还没有文章。</div>
+    )}
+  </section>
+</BaseLayout>

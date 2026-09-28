@@ -1,0 +1,74 @@
+---
+---
+<div class="settings-wrap">
+  <button class="settings-btn" id="settings-btn" aria-label="主题与外观" title="主题与外观">◐</button>
+  <div class="settings-pop" id="settings-pop" hidden>
+    <div class="set-group">
+      <div class="set-label">风格 / Style</div>
+      <div class="set-options" id="preset-opts">
+        <button data-val="cream" type="button">见微</button>
+        <button data-val="ink" type="button">墨</button>
+        <button data-val="slate" type="button">石</button>
+      </div>
+    </div>
+    <div class="set-group">
+      <div class="set-label">字体 / Font</div>
+      <div class="set-options" id="font-opts">
+        <button data-val="serif" type="button">宋</button>
+        <button data-val="kai" type="button">楷</button>
+        <button data-val="sans" type="button">黑</button>
+        <button data-val="mono" type="button">码</button>
+      </div>
+    </div>
+    <div class="set-group">
+      <div class="set-label">明暗 / Mode</div>
+      <div class="set-options" id="mode-opts">
+        <button data-val="light" type="button">亮</button>
+        <button data-val="dark" type="button">暗</button>
+        <button data-val="auto" type="button">自动</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('settings-btn');
+    var pop = document.getElementById('settings-pop');
+    var presetEls = document.querySelectorAll('#preset-opts button');
+    var fontEls = document.querySelectorAll('#font-opts button');
+    var modeEls = document.querySelectorAll('#mode-opts button');
+    var KEY = 'kw-theme';
+
+    function load() {
+      var v = { preset: 'cream', font: 'serif', mode: 'auto' };
+      try {
+        var s = JSON.parse(localStorage.getItem(KEY) || '{}');
+        if (s.preset) v.preset = s.preset;
+        if (s.font) v.font = s.font;
+        if (s.mode) v.mode = s.mode;
+      } catch (e) {}
+      return v;
+    }
+    function save(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
+    function systemDark() { return window.matchMedia('(prefers-color-scheme: dark)').matches; }
+    function resolve(mode) { return mode === 'auto' ? (systemDark() ? 'dark' : 'light') : mode; }
+    function apply() {
+      var v = load();
+      root.dataset.preset = v.preset;
+      root.dataset.font = v.font;
+      root.dataset.mode = resolve(v.mode);
+      presetEls.forEach(function (b) { b.classList.toggle('active', b.dataset.val === v.preset); });
+      fontEls.forEach(function (b) { b.classList.toggle('active', b.dataset.val === v.font); });
+      modeEls.forEach(function (b) { b.classList.toggle('active', b.dataset.val === v.mode); });
+    }
+    apply();
+    presetEls.forEach(function (b) { b.addEventListener('click', function () { var v = load(); v.preset = b.dataset.val; save(v); apply(); }); });
+    fontEls.forEach(function (b) { b.addEventListener('click', function () { var v = load(); v.font = b.dataset.val; save(v); apply(); }); });
+    modeEls.forEach(function (b) { b.addEventListener('click', function () { var v = load(); v.mode = b.dataset.val; save(v); apply(); }); });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { if (load().mode === 'auto') apply(); });
+    if (btn) btn.addEventListener('click', function (e) { e.stopPropagation(); pop.hidden = !pop.hidden; });
+    document.addEventListener('click', function (e) { if (!pop.hidden && !pop.contains(e.target) && e.target !== btn) pop.hidden = true; });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') pop.hidden = true; });
+  })();
+</script>

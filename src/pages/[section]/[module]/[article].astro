@@ -1,0 +1,41 @@
+---
+import { render } from 'astro:content';
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+import { SECTIONS } from '../../../lib/sections';
+import { loadAll, articlesForSeries, sortByPart } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const { articlesAll, seriesMap } = await loadAll();
+  const paths: any[] = [];
+  for (const a of articlesAll) {
+    const series = seriesMap.get(a.data.series);
+    if (!series) continue;
+    const sectionId = series.data.section;
+    paths.push({
+      params: { section: sectionId, module: a.data.series, article: a.id },
+      props: { articleId: a.id, seriesId: a.data.series, sectionId },
+    });
+  }
+  return paths;
+}
+const { articleId, seriesId, sectionId } = Astro.props as any;
+const section = SECTIONS.find((s) => s.id === sectionId)!;
+const { seriesMap } = await loadAll();
+const series = seriesMap.get(seriesId)!;
+const arts = sortByPart(await articlesForSeries(seriesId));
+const idx = arts.findIndex((a) => a.id === articleId);
+const entry = arts[idx];
+const prev = idx > 0 ? arts[idx - 1] : null;
+const next = idx < arts.length - 1 ? arts[idx + 1] : null;
+const { Content, headings } = await render(entry);
+---
+<ArticleLayout
+  entry={entry}
+  section={section}
+  series={series}
+  prev={prev}
+  next={next}
+  headings={headings}
+>
+  <Content />
+</ArticleLayout>
