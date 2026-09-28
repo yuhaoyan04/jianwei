@@ -121,10 +121,10 @@
 }
 
 /* ---- font selection (overrides --head-font; placed last to win) ---- */
-:root[data-font="serif"] { --head-font: var(--font-serif); }
-:root[data-font="kai"] { --head-font: var(--font-kai); }
-:root[data-font="sans"] { --head-font: var(--font-sans); }
-:root[data-font="mono"] { --head-font: var(--font-mono); }
+:root[data-font="serif"] { --head-font: var(--font-serif); --body-font: var(--font-serif); }
+:root[data-font="kai"] { --head-font: var(--font-kai); --body-font: var(--font-kai); }
+:root[data-font="sans"] { --head-font: var(--font-sans); --body-font: var(--font-sans); }
+:root[data-font="mono"] { --head-font: var(--font-mono); --body-font: var(--font-mono); }
 
 /* ---- base ---- */
 * { box-sizing: border-box; }
@@ -326,4 +326,30 @@ h1, h2, h3, h4 { font-family: var(--head-font); line-height: 1.3; font-weight: 6
   .post-list .date { display: none; }
   .part-list .date { display: none; }
   .part-list .md { padding-left: 0; }
+}
+
+/* ---------- Motion ---------- */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bloom { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+.hero-mark { animation: bloom 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.wordmark { animation: fadeUp 0.9s 0.12s ease both; }
+.hero-name { animation: fadeUp 0.7s 0.28s ease both; }
+.hero-slogan { animation: fadeUp 0.7s 0.38s ease both; }
+.hero-sub { animation: fadeUp 0.7s 0.48s ease both; }
+.social { animation: fadeIn 0.7s 0.6s ease both; }
+
+.brand-mark { transition: transform 0.2s ease; }
+.brand:hover .brand-mark { transform: scale(1.1); }
+
+.post-list li { transition: background 0.15s ease; }
+.post-list li:hover { background: var(--bg-soft); }
+.module-list li { transition: background 0.15s ease; }
+.module-list li:hover { background: var(--bg-soft); }
+.nav a { transition: color 0.15s ease; }
+.to-top { transition: opacity 0.2s ease, transform 0.2s ease, color 0.15s ease, border-color 0.15s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
