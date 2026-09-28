@@ -6,7 +6,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
-  site: 'https://knowledge-lab.pages.dev',
+  site: 'https://knowledge-lab-54f.pages.dev',
   trailingSlash: 'never',
   integrations: [mdx()],
   markdown: {
