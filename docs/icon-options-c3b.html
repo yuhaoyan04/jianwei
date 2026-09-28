@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>见微 · 对称渐瓣 · 微差</title>
+<style>
+  :root{--ink:#241f18;--cream:#f6f2ea;--accent:#9c4a2a;--muted:#6b6357;--line:#e6dfcf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:40px 20px 80px;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  h1{font-size:26px;margin:0 0 4px;letter-spacing:.04em;}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 16px;}
+  .legend{font-size:13px;color:var(--muted);margin:0 0 36px;line-height:1.8;padding:14px 16px;background:#fbf8f2;border:1px solid var(--line);border-radius:10px;}
+  .opt{background:#fbf8f2;border:1px solid var(--line);border-radius:14px;padding:28px;margin-bottom:24px;}
+  .opt-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+  .opt-head h2{font-size:18px;margin:0;}
+  .opt-head .id{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted);background:var(--cream);border:1px solid var(--line);padding:2px 8px;border-radius:999px;}
+  .opt-head .desc{color:var(--muted);font-size:13px;margin-left:auto;max-width:460px;text-align:right;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 8px;border-radius:10px;}
+  .cell.light{background:var(--cream);}
+  .cell.dark{background:#17130e;}
+  .sizes{display:flex;gap:24px;align-items:flex-end;justify-content:center;}
+  .cell svg{display:block;}
+  .cell .label{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--muted);}
+  .cell.dark .label{color:#7b7264;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>见微 · 对称渐瓣 · 微差</h1>
+  <p class="sub">底值抬到 0.75 以上，渐变极含蓄——最考验「见微」。</p>
+  <p class="legend">底值 0.75 / 0.80 / 0.85，整圈仅 1.33× / 1.25× / 1.18×。相邻几乎同大，需细看方觉渐变——最贴近「见微」本意，但 16px 下可能难辨。</p>
+  <div id="root"></div>
+  <p class="legend">选定后做 favicon 16px 终调并全站替换。</p>
+</div>
+<script>
+const LEAF="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z";
+const A=[0,45,90,135,180,225,270,315];
+function scales(m){const r=1-m;return A.map(t=>t<=180?(1-r*t/180):(m+r*(t-180)/180));}
+const V=[
+ {id:'e1',name:'1.33×',desc:'底 0.75，每步约 6%——含蓄，仍可辨',m:0.75},
+ {id:'e2',name:'1.25×',desc:'底 0.80，每步 5%——更微妙（推荐）',m:0.80},
+ {id:'e3',name:'1.18×',desc:'底 0.85，每步约 3.8%——极微，近乎同大，考验辨识',m:0.85}
+];
+function mk(petals,size,pf,df){
+  const dr=size>=100?3.6:4.4;
+  let s=petals.map(([a,s])=>{
+    const tf=(a===0&&s===1)?'':` transform="rotate(${a} 32 32) translate(32 32) scale(${s}) translate(-32 -32)"`;
+    return `<path d="${LEAF}" fill="${pf}"${tf}/>`;
+  }).join('');
+  return `<svg width="${size}" height="${size}" viewBox="0 0 64 64">${s}<circle cx="32" cy="32" r="${dr}" fill="${df}"/></svg>`;
+}
+const root=document.getElementById('root');
+V.forEach(v=>{
+  const p=A.map((a,i)=>[a,scales(v.m)[i]]);
+  const cl=mk(p,128,'#241f18','#9c4a2a')+mk(p,32,'#241f18','#9c4a2a');
+  const cd=mk(p,128,'#e9e1d3','#cf7a4f')+mk(p,32,'#e9e1d3','#cf7a4f');
+  root.insertAdjacentHTML('beforeend',
+   `<div class="opt"><div class="opt-head"><span class="id">${v.id}</span><h2>${v.name}</h2><span class="desc">${v.desc}</span></div>
+    <div class="grid"><div class="cell light"><div class="sizes">${cl}</div><div class="label">cream · light</div></div>
+    <div class="cell dark"><div class="sizes">${cd}</div><div class="label">ink · dark</div></div></div></div>`);
+});
+</script>
+</body>
+</html>

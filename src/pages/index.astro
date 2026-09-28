@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
+import BrandMark from '../components/BrandMark.astro';
 import { SITE, SECTIONS } from '../lib/sections';
 import {
   loadAll,
@@ -34,10 +35,7 @@ const moduleIndex = await Promise.all(
 ---
 <BaseLayout title={`${SITE.name} / ${SITE.nameEn}`} description={`${SITE.name} / ${SITE.nameEn} — ${SITE.slogan}`}>
   <section class="hero">
-    <svg class="hero-mark" viewBox="0 0 32 32" width="34" height="34" aria-hidden="true">
-      <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.1" />
-      <circle cx="16" cy="16" r="2.4" fill="currentColor" />
-    </svg>
+    <BrandMark size={34} class="hero-mark" />
     <h1 class="wordmark">见<span class="em">微</span></h1>
     <div class="hero-name">Jianwei</div>
     <p class="hero-slogan">{SITE.slogan}</p>

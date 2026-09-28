@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>见微 · 叶瓣精修</title>
+<style>
+  :root { --ink:#241f18; --cream:#f6f2ea; --accent:#9c4a2a; --muted:#6b6357; --line:#e6dfcf; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; padding:40px 20px 80px; }
+  .wrap { max-width:1000px; margin:0 auto; }
+  h1 { font-size:26px; margin:0 0 4px; letter-spacing:.04em; }
+  .sub { color:var(--muted); font-size:14px; margin:0 0 16px; }
+  .legend { font-size:13px; color:var(--muted); margin:0 0 36px; line-height:1.8; padding:14px 16px; background:#fbf8f2; border:1px solid var(--line); border-radius:10px; }
+  .opt { background:#fbf8f2; border:1px solid var(--line); border-radius:14px; padding:28px; margin-bottom:24px; }
+  .opt-head { display:flex; align-items:baseline; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+  .opt-head h2 { font-size:18px; margin:0; }
+  .opt-head .id { font-family:ui-monospace,Consolas,monospace; font-size:12px; color:var(--muted); background:var(--cream); border:1px solid var(--line); padding:2px 8px; border-radius:999px; }
+  .opt-head .desc { color:var(--muted); font-size:13px; margin-left:auto; max-width:460px; text-align:right; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .cell { display:flex; flex-direction:column; align-items:center; gap:14px; padding:22px 8px; border-radius:10px; }
+  .cell.light { background:var(--cream); }
+  .cell.dark { background:#17130e; }
+  .sizes { display:flex; gap:24px; align-items:flex-end; justify-content:center; }
+  .cell svg { display:block; }
+  .cell .label { font-family:ui-monospace,Consolas,monospace; font-size:11px; color:var(--muted); }
+  .cell.dark .label { color:#7b7264; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>见微 · 叶瓣精修（b 细化）</h1>
+  <p class="sub">叶形改为「圆底尖梢、比例更匀」，再做四种大小排布，128 / 32 + 亮/暗。</p>
+  <p class="legend">叶瓣底部圆滑、自中心点长出（不再悬浮），高宽比从原来的 1.6 收到约 1.2，更像花瓣而非针。<b>四种排布</b>只在「大小关系」上不同，便于挑出最舒服的那一版。</p>
+
+  <!-- b1 均衡 -->
+  <div class="opt">
+    <div class="opt-head">
+      <span class="id">b1</span><h2>均 衡</h2>
+      <span class="desc">三瓣大小相近（1 / .9 / .82）+ 微不对称角度——最像一朵均衡绽放的花</span>
+    </div>
+    <div class="grid">
+      <div class="cell light">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><g fill="#241f18"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(118 32 32) translate(32 32) scale(0.9) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(242 32 32) translate(32 32) scale(0.82) translate(-32 -32)"/></g><circle cx="32" cy="32" r="3.6" fill="#9c4a2a"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><g fill="#241f18"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(118 32 32) translate(32 32) scale(0.9) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(242 32 32) translate(32 32) scale(0.82) translate(-32 -32)"/></g><circle cx="32" cy="32" r="4.4" fill="#9c4a2a"/></svg>
+        </div>
+        <div class="label">cream · light</div>
+      </div>
+      <div class="cell dark">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><g fill="#e9e1d3"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(118 32 32) translate(32 32) scale(0.9) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(242 32 32) translate(32 32) scale(0.82) translate(-32 -32)"/></g><circle cx="32" cy="32" r="3.6" fill="#cf7a4f"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><g fill="#e9e1d3"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(118 32 32) translate(32 32) scale(0.9) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(242 32 32) translate(32 32) scale(0.82) translate(-32 -32)"/></g><circle cx="32" cy="32" r="4.4" fill="#cf7a4f"/></svg>
+        </div>
+        <div class="label">ink · dark</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- b2 主从 -->
+  <div class="opt">
+    <div class="opt-head">
+      <span class="id">b2</span><h2>主 从</h2>
+      <span class="desc">一瓣为主（1）+ 两瓣扶持（.72 / .66）——有主方向，但仍匀称</span>
+    </div>
+    <div class="grid">
+      <div class="cell light">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><g fill="#241f18"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(125 32 32) translate(32 32) scale(0.72) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(240 32 32) translate(32 32) scale(0.66) translate(-32 -32)"/></g><circle cx="32" cy="32" r="3.6" fill="#9c4a2a"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><g fill="#241f18"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(125 32 32) translate(32 32) scale(0.74) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(240 32 32) translate(32 32) scale(0.68) translate(-32 -32)"/></g><circle cx="32" cy="32" r="4.4" fill="#9c4a2a"/></svg>
+        </div>
+        <div class="label">cream · light</div>
+      </div>
+      <div class="cell dark">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><g fill="#e9e1d3"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(125 32 32) translate(32 32) scale(0.72) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(240 32 32) translate(32 32) scale(0.66) translate(-32 -32)"/></g><circle cx="32" cy="32" r="3.6" fill="#cf7a4f"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><g fill="#e9e1d3"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(125 32 32) translate(32 32) scale(0.74) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(240 32 32) translate(32 32) scale(0.68) translate(-32 -32)"/></g><circle cx="32" cy="32" r="4.4" fill="#cf7a4f"/></svg>
+        </div>
+        <div class="label">ink · dark</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- b3 四瓣 -->
+  <div class="opt">
+    <div class="opt-head">
+      <span class="id">b3</span><h2>四 瓣</h2>
+      <span class="desc">四瓣渐次（1 / .85 / .7 / .58）+ 不对称角度——更饱满的绽放</span>
+    </div>
+    <div class="grid">
+      <div class="cell light">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><g fill="#241f18"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(95 32 32) translate(32 32) scale(0.85) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(175 32 32) translate(32 32) scale(0.7) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(265 32 32) translate(32 32) scale(0.58) translate(-32 -32)"/></g><circle cx="32" cy="32" r="3.6" fill="#9c4a2a"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><g fill="#241f18"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(95 32 32) translate(32 32) scale(0.88) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(175 32 32) translate(32 32) scale(0.74) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(265 32 32) translate(32 32) scale(0.64) translate(-32 -32)"/></g><circle cx="32" cy="32" r="4.4" fill="#9c4a2a"/></svg>
+        </div>
+        <div class="label">cream · light</div>
+      </div>
+      <div class="cell dark">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><g fill="#e9e1d3"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(95 32 32) translate(32 32) scale(0.85) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(175 32 32) translate(32 32) scale(0.7) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(265 32 32) translate(32 32) scale(0.58) translate(-32 -32)"/></g><circle cx="32" cy="32" r="3.6" fill="#cf7a4f"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><g fill="#e9e1d3"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(95 32 32) translate(32 32) scale(0.88) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(175 32 32) translate(32 32) scale(0.74) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(265 32 32) translate(32 32) scale(0.64) translate(-32 -32)"/></g><circle cx="32" cy="32" r="4.4" fill="#cf7a4f"/></svg>
+        </div>
+        <div class="label">ink · dark</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- b4 渐次 -->
+  <div class="opt">
+    <div class="opt-head">
+      <span class="id">b4</span><h2>渐 次</h2>
+      <span class="desc">三瓣明显渐次（1 / .8 / .6）——像一朵正在打开、有先后顺序的花</span>
+    </div>
+    <div class="grid">
+      <div class="cell light">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><g fill="#241f18"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(120 32 32) translate(32 32) scale(0.8) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(250 32 32) translate(32 32) scale(0.6) translate(-32 -32)"/></g><circle cx="32" cy="32" r="3.6" fill="#9c4a2a"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><g fill="#241f18"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(120 32 32) translate(32 32) scale(0.84) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(250 32 32) translate(32 32) scale(0.66) translate(-32 -32)"/></g><circle cx="32" cy="32" r="4.4" fill="#9c4a2a"/></svg>
+        </div>
+        <div class="label">cream · light</div>
+      </div>
+      <div class="cell dark">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><g fill="#e9e1d3"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(120 32 32) translate(32 32) scale(0.8) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(250 32 32) translate(32 32) scale(0.6) translate(-32 -32)"/></g><circle cx="32" cy="32" r="3.6" fill="#cf7a4f"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><g fill="#e9e1d3"><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(120 32 32) translate(32 32) scale(0.84) translate(-32 -32)"/><path d="M32,32 C26,32 23,22 32,10 C41,22 38,32 32,32 Z" transform="rotate(250 32 32) translate(32 32) scale(0.66) translate(-32 -32)"/></g><circle cx="32" cy="32" r="4.4" fill="#cf7a4f"/></svg>
+        </div>
+        <div class="label">ink · dark</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="legend">叶形已统一为「圆底尖梢、自中心长出」，只变大小关系：<b>b1</b> 均衡（最像花）；<b>b2</b> 主从（有方向）；<b>b3</b> 四瓣（最饱满）；<b>b4</b> 渐次（有先后）。也可与 <b>a 曲射</b> 再比较。选定后做 favicon 16px 终调并全站替换。</p>
+</div>
+</body>
+</html>

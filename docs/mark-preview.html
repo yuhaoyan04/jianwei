@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>见微 · 终版标记预览</title>
+<style>
+  :root{--ink:#241f18;--cream:#f6f2ea;--accent:#9c4a2a;--muted:#6b6357;--line:#e6dfcf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:40px 20px 80px;}
+  .wrap{max-width:920px;margin:0 auto;}
+  h1{font-size:24px;margin:0 0 4px;letter-spacing:.04em;}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 28px;}
+  .card{background:#fbf8f2;border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:22px;}
+  .card h2{font-size:16px;margin:0 0 16px;}
+  .row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+  .row .pair{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .row .pair span{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--muted);}
+  .tabbar{display:flex;align-items:flex-end;gap:6px;padding:8px 10px 0;border-radius:8px 8px 0 0;border:1px solid var(--line);border-bottom:none;}
+  .tabbar.light{background:#e8e2d6;}
+  .tabbar.dark{background:#241f18;}
+  .tab{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:7px 7px 0 0;font-size:12px;}
+  .tabbar.light .tab{background:#f6f2ea;color:#241f18;}
+  .tabbar.dark .tab{background:#17130e;color:#e9e1d3;}
+  .tab img{display:block;}
+  .panel{display:flex;align-items:center;justify-content:center;border-radius:12px;padding:30px;}
+  .panel.light{background:var(--cream);}
+  .panel.dark{background:#17130e;}
+  .panel svg{display:block;}
+  .note{font-size:13px;color:var(--muted);line-height:1.8;margin:0 0 16px;padding:14px 16px;background:#fbf8f2;border:1px solid var(--line);border-radius:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>见微 · 终版标记预览</h1>
+  <p class="sub">e1：8 瓣对称渐瓣（顶 1.0 / 底 0.75，1.33×），圆底尖梢叶形自中心长出，中心点为品牌强调色。</p>
+
+  <p class="note">下方左图为 <code>public/favicon.svg</code>（深底圆角磁贴，亮瓣 + 强调点，适合标签栏）；右图为透明底标记本身（用于站内 header / hero / banner）。多尺寸验证矢量为高清无损。</p>
+
+  <div class="card">
+    <h2>标签栏模拟</h2>
+    <div class="tabbar light" style="margin-bottom:14px">
+      <div class="tab"><img src="../public/favicon.svg" width="16" height="16" alt=""/> 见微 · 笔记</div>
+      <div class="tab">另一个标签</div>
+    </div>
+    <div class="tabbar dark">
+      <div class="tab"><img src="../public/favicon.svg" width="16" height="16" alt=""/> 见微 · 笔记</div>
+      <div class="tab">另一个标签</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>磁贴多尺寸（favicon.svg 作为图像）</h2>
+    <div class="row">
+      <div class="pair"><img src="../public/favicon.svg" width="16" height="16" alt=""/><span>16</span></div>
+      <div class="pair"><img src="../public/favicon.svg" width="32" height="32" alt=""/><span>32</span></div>
+      <div class="pair"><img src="../public/favicon.svg" width="64" height="64" alt=""/><span>64</span></div>
+      <div class="pair"><img src="../public/favicon.svg" width="128" height="128" alt=""/><span>128</span></div>
+      <div class="pair"><img src="../public/favicon.svg" width="256" height="256" alt=""/><span>256</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>透明底标记 · 多尺寸（站内用，currentColor 瓣 + 强调点）</h2>
+    <div class="panel light" style="margin-bottom:14px">
+      <div class="row">
+        <svg width="22" height="22" viewBox="0 0 64 64"><use href="#p"/><use href="#p" transform="rotate(45 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><use href="#p" transform="rotate(90 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p" transform="rotate(135 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p" transform="rotate(180 32 32) translate(32 32) scale(.75) translate(-32 -32)"/><use href="#p" transform="rotate(225 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p" transform="rotate(270 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p" transform="rotate(315 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><circle cx="32" cy="32" r="4.8" fill="#9c4a2a"/><defs><path id="p" d="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z" fill="#241f18"/></defs></svg>
+        <svg width="34" height="34" viewBox="0 0 64 64"><use href="#p2"/><use href="#p2" transform="rotate(45 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><use href="#p2" transform="rotate(90 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p2" transform="rotate(135 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p2" transform="rotate(180 32 32) translate(32 32) scale(.75) translate(-32 -32)"/><use href="#p2" transform="rotate(225 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p2" transform="rotate(270 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p2" transform="rotate(315 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><circle cx="32" cy="32" r="4.8" fill="#9c4a2a"/><defs><path id="p2" d="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z" fill="#241f18"/></defs></svg>
+        <svg width="64" height="64" viewBox="0 0 64 64"><use href="#p3"/><use href="#p3" transform="rotate(45 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><use href="#p3" transform="rotate(90 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p3" transform="rotate(135 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p3" transform="rotate(180 32 32) translate(32 32) scale(.75) translate(-32 -32)"/><use href="#p3" transform="rotate(225 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p3" transform="rotate(270 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p3" transform="rotate(315 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><circle cx="32" cy="32" r="4.8" fill="#9c4a2a"/><defs><path id="p3" d="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z" fill="#241f18"/></defs></svg>
+        <svg width="128" height="128" viewBox="0 0 64 64"><use href="#p4"/><use href="#p4" transform="rotate(45 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><use href="#p4" transform="rotate(90 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p4" transform="rotate(135 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p4" transform="rotate(180 32 32) translate(32 32) scale(.75) translate(-32 -32)"/><use href="#p4" transform="rotate(225 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p4" transform="rotate(270 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p4" transform="rotate(315 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><circle cx="32" cy="32" r="4.8" fill="#9c4a2a"/><defs><path id="p4" d="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z" fill="#241f18"/></defs></svg>
+      </div>
+    </div>
+    <div class="panel dark">
+      <div class="row">
+        <svg width="22" height="22" viewBox="0 0 64 64"><use href="#p5"/><use href="#p5" transform="rotate(45 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><use href="#p5" transform="rotate(90 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p5" transform="rotate(135 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p5" transform="rotate(180 32 32) translate(32 32) scale(.75) translate(-32 -32)"/><use href="#p5" transform="rotate(225 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p5" transform="rotate(270 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p5" transform="rotate(315 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><circle cx="32" cy="32" r="4.8" fill="#cf7a4f"/><defs><path id="p5" d="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z" fill="#e9e1d3"/></defs></svg>
+        <svg width="34" height="34" viewBox="0 0 64 64"><use href="#p6"/><use href="#p6" transform="rotate(45 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><use href="#p6" transform="rotate(90 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p6" transform="rotate(135 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p6" transform="rotate(180 32 32) translate(32 32) scale(.75) translate(-32 -32)"/><use href="#p6" transform="rotate(225 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p6" transform="rotate(270 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p6" transform="rotate(315 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><circle cx="32" cy="32" r="4.8" fill="#cf7a4f"/><defs><path id="p6" d="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z" fill="#e9e1d3"/></defs></svg>
+        <svg width="64" height="64" viewBox="0 0 64 64"><use href="#p7"/><use href="#p7" transform="rotate(45 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><use href="#p7" transform="rotate(90 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p7" transform="rotate(135 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p7" transform="rotate(180 32 32) translate(32 32) scale(.75) translate(-32 -32)"/><use href="#p7" transform="rotate(225 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p7" transform="rotate(270 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p7" transform="rotate(315 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><circle cx="32" cy="32" r="4.8" fill="#cf7a4f"/><defs><path id="p7" d="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z" fill="#e9e1d3"/></defs></svg>
+        <svg width="128" height="128" viewBox="0 0 64 64"><use href="#p8"/><use href="#p8" transform="rotate(45 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><use href="#p8" transform="rotate(90 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p8" transform="rotate(135 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p8" transform="rotate(180 32 32) translate(32 32) scale(.75) translate(-32 -32)"/><use href="#p8" transform="rotate(225 32 32) translate(32 32) scale(.8125) translate(-32 -32)"/><use href="#p8" transform="rotate(270 32 32) translate(32 32) scale(.875) translate(-32 -32)"/><use href="#p8" transform="rotate(315 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/><circle cx="32" cy="32" r="4.8" fill="#cf7a4f"/><defs><path id="p8" d="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z" fill="#e9e1d3"/></defs></svg>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">确认无误后，我将把标记替换进 <code>Header.astro</code>（22px 品牌）、<code>index.astro</code>（34px hero）、<code>docs/banner.svg</code>，并重建 + 提交 + 部署。</p>
+</div>
+</body>
+</html>

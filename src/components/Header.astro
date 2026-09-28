@@ -1,16 +1,14 @@
 ---
 import { SECTIONS } from '../lib/sections';
 import ThemeSettings from './ThemeSettings.astro';
+import BrandMark from './BrandMark.astro';
 const path = Astro.url.pathname.replace(/\/+$/, '');
 const current = SECTIONS.find((s) => path === `/${s.id}` || path.startsWith(`/${s.id}/`))?.id;
 ---
 <header class="site-header">
   <div class="inner">
     <a class="brand" href="/">
-      <svg class="brand-mark" viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
-        <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.4" />
-        <circle cx="16" cy="16" r="2.6" fill="currentColor" />
-      </svg>
+      <BrandMark size={22} />
       <span>见微</span>
     </a>
     <nav class="nav">

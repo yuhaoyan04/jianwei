@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>见微 · 渐瓣</title>
+<style>
+  :root{--ink:#241f18;--cream:#f6f2ea;--accent:#9c4a2a;--muted:#6b6357;--line:#e6dfcf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:40px 20px 80px;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  h1{font-size:26px;margin:0 0 4px;letter-spacing:.04em;}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 16px;}
+  .legend{font-size:13px;color:var(--muted);margin:0 0 36px;line-height:1.8;padding:14px 16px;background:#fbf8f2;border:1px solid var(--line);border-radius:10px;}
+  .opt{background:#fbf8f2;border:1px solid var(--line);border-radius:14px;padding:28px;margin-bottom:24px;}
+  .opt-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+  .opt-head h2{font-size:18px;margin:0;}
+  .opt-head .id{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted);background:var(--cream);border:1px solid var(--line);padding:2px 8px;border-radius:999px;}
+  .opt-head .desc{color:var(--muted);font-size:13px;margin-left:auto;max-width:480px;text-align:right;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 8px;border-radius:10px;}
+  .cell.light{background:var(--cream);}
+  .cell.dark{background:#17130e;}
+  .sizes{display:flex;gap:24px;align-items:flex-end;justify-content:center;}
+  .cell svg{display:block;}
+  .cell .label{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--muted);}
+  .cell.dark .label{color:#7b7264;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>见微 · 渐瓣</h1>
+  <p class="sub">让图标本身演示「见微」——相邻瓣几无差别，绕一圈方见大小已翻。</p>
+  <p class="legend">核心思路：多瓣等距排布，仅大小沿圆周渐变。<b>螺旋式</b>单向渐小（有一处「揭晓」接缝，喻「微积成著」的瞬间）；<b>对称式</b>顶大底小（无接缝，两侧行进、于顶底见对比）。叶形沿用圆底尖梢、自中心长出。</p>
+  <div id="root"></div>
+  <p class="legend">挑一种「渐变策略」与瓣数。选定后做 favicon 16px 终调（过小瓣会略补大）并全站替换。</p>
+</div>
+<script>
+const LEAF="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z";
+const V=[
+ {id:'c1',name:'螺 旋 · 八',desc:'8 瓣单向渐小（每步约 10%），整圈 2.1×——有方向感，接缝即「著」的揭晓',p:[[0,1.0],[45,0.90],[90,0.81],[135,0.73],[180,0.66],[225,0.59],[270,0.53],[315,0.48]]},
+ {id:'c2',name:'螺 旋 · 七',desc:'7 瓣渐小（每步约 12%），整圈 2.2×——略疏朗，接缝更明显',p:[[0,1.0],[51.43,0.88],[102.86,0.77],[154.29,0.68],[205.71,0.60],[257.14,0.53],[308.57,0.46]]},
+ {id:'c3',name:'对 称 · 八',desc:'8 瓣顶大底小对称（无接缝），两侧各自行进、于顶/底见 2.2× 对比——最均衡',p:[[0,1.0],[45,0.86],[90,0.73],[135,0.59],[180,0.45],[225,0.59],[270,0.73],[315,0.86]]},
+ {id:'c4',name:'螺 旋 · 深',desc:'8 瓣陡降（每步约 14%，最小 0.35），整圈 2.9×——对比最分明，接缝最强',p:[[0,1.0],[45,0.86],[90,0.74],[135,0.64],[180,0.55],[225,0.47],[270,0.40],[315,0.35]]}
+];
+function mk(petals,size,pf,df){
+  const dr=size>=100?3.6:4.4;
+  let s=petals.map(([a,s])=>{
+    const tf=(a===0&&s===1)?'':` transform="rotate(${a} 32 32) translate(32 32) scale(${s}) translate(-32 -32)"`;
+    return `<path d="${LEAF}" fill="${pf}"${tf}/>`;
+  }).join('');
+  return `<svg width="${size}" height="${size}" viewBox="0 0 64 64">${s}<circle cx="32" cy="32" r="${dr}" fill="${df}"/></svg>`;
+}
+const root=document.getElementById('root');
+V.forEach(v=>{
+  const cl=mk(v.p,128,'#241f18','#9c4a2a')+mk(v.p,32,'#241f18','#9c4a2a');
+  const cd=mk(v.p,128,'#e9e1d3','#cf7a4f')+mk(v.p,32,'#e9e1d3','#cf7a4f');
+  root.insertAdjacentHTML('beforeend',
+   `<div class="opt"><div class="opt-head"><span class="id">${v.id}</span><h2>${v.name}</h2><span class="desc">${v.desc}</span></div>
+    <div class="grid"><div class="cell light"><div class="sizes">${cl}</div><div class="label">cream · light</div></div>
+    <div class="cell dark"><div class="sizes">${cd}</div><div class="label">ink · dark</div></div></div></div>`);
+});
+</script>
+</body>
+</html>

@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <style>.t{fill:#f6f2ea}.p{fill:#241f18}.d{fill:#9c4a2a}@media (prefers-color-scheme: dark){.t{fill:#17130e}.p{fill:#e9e1d3}.d{fill:#cf7a4f}}</style>
   <defs><path id="petal" d="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z"/></defs>
-  <rect class="t" width="64" height="64" rx="14"/>
-  <g class="p">
+  <rect width="64" height="64" rx="14" fill="#f6f2ea"/>
+  <g fill="#241f18">
     <use href="#petal"/>
     <use href="#petal" transform="rotate(45 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/>
     <use href="#petal" transform="rotate(90 32 32) translate(32 32) scale(.875) translate(-32 -32)"/>
@@ -12,5 +11,5 @@
     <use href="#petal" transform="rotate(270 32 32) translate(32 32) scale(.875) translate(-32 -32)"/>
     <use href="#petal" transform="rotate(315 32 32) translate(32 32) scale(.9375) translate(-32 -32)"/>
   </g>
-  <circle class="d" cx="32" cy="32" r="4.8"/>
+  <circle cx="32" cy="32" r="4.8" fill="#9c4a2a"/>
 </svg>

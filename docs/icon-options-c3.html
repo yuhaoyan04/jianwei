@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>见微 · 对称渐瓣 · 收窄</title>
+<style>
+  :root{--ink:#241f18;--cream:#f6f2ea;--accent:#9c4a2a;--muted:#6b6357;--line:#e6dfcf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:40px 20px 80px;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  h1{font-size:26px;margin:0 0 4px;letter-spacing:.04em;}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 16px;}
+  .legend{font-size:13px;color:var(--muted);margin:0 0 36px;line-height:1.8;padding:14px 16px;background:#fbf8f2;border:1px solid var(--line);border-radius:10px;}
+  .opt{background:#fbf8f2;border:1px solid var(--line);border-radius:14px;padding:28px;margin-bottom:24px;}
+  .opt-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+  .opt-head h2{font-size:18px;margin:0;}
+  .opt-head .id{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted);background:var(--cream);border:1px solid var(--line);padding:2px 8px;border-radius:999px;}
+  .opt-head .desc{color:var(--muted);font-size:13px;margin-left:auto;max-width:460px;text-align:right;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 8px;border-radius:10px;}
+  .cell.light{background:var(--cream);}
+  .cell.dark{background:#17130e;}
+  .sizes{display:flex;gap:24px;align-items:flex-end;justify-content:center;}
+  .cell svg{display:block;}
+  .cell .label{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--muted);}
+  .cell.dark .label{color:#7b7264;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>见微 · 对称渐瓣 · 收窄</h1>
+  <p class="sub">c3 对称八瓣保留，仅把顶/底大小差距逐档缩小。</p>
+  <p class="legend">原 c3 顶 1.0 / 底 0.45（2.2×），偏夸张。下面四档依次收窄到 1.43×，挑「还看得出渐变但不夸张」的那一档。每步差距同步缩小，相邻更趋同（更「微」）。</p>
+  <div id="root"></div>
+  <p class="legend">选定后做 favicon 16px 终调并全站替换。</p>
+</div>
+<script>
+const LEAF="M32,32 C28,32 24,24 32,12 C40,24 36,32 32,32 Z";
+const A=[0,45,90,135,180,225,270,315];
+function scales(m){const r=1-m;return A.map(t=>t<=180?(1-r*t/180):(m+r*(t-180)/180));}
+const V=[
+ {id:'d1',name:'1.92×',desc:'底 0.52，每步约 12%——比原 c3 略收',m:0.52},
+ {id:'d2',name:'1.72×',desc:'底 0.58，每步约 10.5%——适度收窄，仍清晰（推荐）',m:0.58},
+ {id:'d3',name:'1.56×',desc:'底 0.64，每步约 9%——更克制，渐变更含蓄',m:0.64},
+ {id:'d4',name:'1.43×',desc:'底 0.70，每步约 7.5%——最微妙，考验辨识',m:0.70}
+];
+function mk(petals,size,pf,df){
+  const dr=size>=100?3.6:4.4;
+  let s=petals.map(([a,s])=>{
+    const tf=(a===0&&s===1)?'':` transform="rotate(${a} 32 32) translate(32 32) scale(${s}) translate(-32 -32)"`;
+    return `<path d="${LEAF}" fill="${pf}"${tf}/>`;
+  }).join('');
+  return `<svg width="${size}" height="${size}" viewBox="0 0 64 64">${s}<circle cx="32" cy="32" r="${dr}" fill="${df}"/></svg>`;
+}
+const root=document.getElementById('root');
+V.forEach(v=>{
+  const p=A.map((a,i)=>[a,scales(v.m)[i]]);
+  const cl=mk(p,128,'#241f18','#9c4a2a')+mk(p,32,'#241f18','#9c4a2a');
+  const cd=mk(p,128,'#e9e1d3','#cf7a4f')+mk(p,32,'#e9e1d3','#cf7a4f');
+  root.insertAdjacentHTML('beforeend',
+   `<div class="opt"><div class="opt-head"><span class="id">${v.id}</span><h2>${v.name}</h2><span class="desc">${v.desc}</span></div>
+    <div class="grid"><div class="cell light"><div class="sizes">${cl}</div><div class="label">cream · light</div></div>
+    <div class="cell dark"><div class="sizes">${cd}</div><div class="label">ink · dark</div></div></div></div>`);
+});
+</script>
+</body>
+</html>
