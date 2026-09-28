@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>见微 · IP 图标选型</title>
+<style>
+  :root { --ink:#241f18; --cream:#f6f2ea; --accent:#9c4a2a; --muted:#6b6357; --line:#e6dfcf; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; padding:40px 20px 80px; }
+  .wrap { max-width:980px; margin:0 auto; }
+  h1 { font-size:26px; margin:0 0 4px; letter-spacing:.04em; }
+  .sub { color:var(--muted); font-size:14px; margin:0 0 36px; }
+  .opt { background:#fbf8f2; border:1px solid var(--line); border-radius:14px; padding:28px; margin-bottom:24px; }
+  .opt-head { display:flex; align-items:baseline; gap:12px; margin-bottom:20px; }
+  .opt-head h2 { font-size:18px; margin:0; }
+  .opt-head .id { font-family:ui-monospace,Consolas,monospace; font-size:12px; color:var(--muted); }
+  .opt-head .desc { color:var(--muted); font-size:13px; margin-left:auto; }
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .cell { display:flex; flex-direction:column; align-items:center; gap:12px; padding:18px 8px; border-radius:10px; }
+  .cell.light { background:var(--cream); }
+  .cell.dark { background:#17130e; }
+  .cell svg { display:block; }
+  .cell .label { font-family:ui-monospace,Consolas,monospace; font-size:11px; color:var(--muted); }
+  .cell.dark .label { color:#7b7264; }
+  .sizes { display:flex; gap:18px; align-items:flex-end; justify-content:center; }
+  .note { font-size:13px; color:var(--muted); margin-top:14px; line-height:1.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>见微 · 个人 IP 图标选型</h1>
+  <p class="sub">三个极简方向，均在亮/暗背景下展示 128 / 64 / 32 / 16 四种尺寸。选定后我会统一替换 favicon、Header 品牌、首页 hero 与 README 横幅。</p>
+
+  <!-- Option 1: Frame & Focus -->
+  <div class="opt">
+    <div class="opt-head">
+      <span class="id">A</span><h2>框 · 焦点</h2>
+      <span class="desc">方框（结构）+ 偏心点（细节）——「在结构中看见细节」</span>
+    </div>
+    <div class="grid">
+      <div class="cell light">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" rx="12" fill="none" stroke="#241f18" stroke-width="3"/><circle cx="42" cy="22" r="6.5" fill="#9c4a2a"/></svg>
+          <svg width="64" height="64" viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" rx="12" fill="none" stroke="#241f18" stroke-width="3"/><circle cx="42" cy="22" r="6.5" fill="#9c4a2a"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" rx="12" fill="none" stroke="#241f18" stroke-width="3.5"/><circle cx="42" cy="22" r="7" fill="#9c4a2a"/></svg>
+          <svg width="16" height="16" viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" rx="12" fill="none" stroke="#241f18" stroke-width="4"/><circle cx="42" cy="22" r="7.5" fill="#9c4a2a"/></svg>
+        </div>
+        <div class="label">cream · light</div>
+      </div>
+      <div class="cell dark">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" rx="12" fill="none" stroke="#e9e1d3" stroke-width="3"/><circle cx="42" cy="22" r="6.5" fill="#cf7a4f"/></svg>
+          <svg width="64" height="64" viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" rx="12" fill="none" stroke="#e9e1d3" stroke-width="3"/><circle cx="42" cy="22" r="6.5" fill="#cf7a4f"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" rx="12" fill="none" stroke="#e9e1d3" stroke-width="3.5"/><circle cx="42" cy="22" r="7" fill="#cf7a4f"/></svg>
+          <svg width="16" height="16" viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" rx="12" fill="none" stroke="#e9e1d3" stroke-width="4"/><circle cx="42" cy="22" r="7.5" fill="#cf7a4f"/></svg>
+        </div>
+        <div class="label">ink · dark</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option 2: Ring & Core -->
+  <div class="opt">
+    <div class="opt-head">
+      <span class="id">B</span><h2>环 · 心</h2>
+      <span class="desc">圆环（整体）+ 中心点（核心细节）——「聚焦于一点」</span>
+    </div>
+    <div class="grid">
+      <div class="cell light">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="#241f18" stroke-width="3"/><circle cx="32" cy="32" r="7.5" fill="#9c4a2a"/></svg>
+          <svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="#241f18" stroke-width="3"/><circle cx="32" cy="32" r="7.5" fill="#9c4a2a"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="#241f18" stroke-width="3.5"/><circle cx="32" cy="32" r="8" fill="#9c4a2a"/></svg>
+          <svg width="16" height="16" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="#241f18" stroke-width="4"/><circle cx="32" cy="32" r="8.5" fill="#9c4a2a"/></svg>
+        </div>
+        <div class="label">cream · light</div>
+      </div>
+      <div class="cell dark">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="#e9e1d3" stroke-width="3"/><circle cx="32" cy="32" r="7.5" fill="#cf7a4f"/></svg>
+          <svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="#e9e1d3" stroke-width="3"/><circle cx="32" cy="32" r="7.5" fill="#cf7a4f"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="#e9e1d3" stroke-width="3.5"/><circle cx="32" cy="32" r="8" fill="#cf7a4f"/></svg>
+          <svg width="16" height="16" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="#e9e1d3" stroke-width="4"/><circle cx="32" cy="32" r="8.5" fill="#cf7a4f"/></svg>
+        </div>
+        <div class="label">ink · dark</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option 3: Orbital -->
+  <div class="opt">
+    <div class="opt-head">
+      <span class="id">C</span><h2>轨 · 微</h2>
+      <span class="desc">圆环（整体）+ 边缘点（细节）——「细节在整体的边缘显现」</span>
+    </div>
+    <div class="grid">
+      <div class="cell light">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><circle cx="32" cy="32" r="23" fill="none" stroke="#241f18" stroke-width="3"/><circle cx="51" cy="16" r="6" fill="#9c4a2a"/></svg>
+          <svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="23" fill="none" stroke="#241f18" stroke-width="3"/><circle cx="51" cy="16" r="6" fill="#9c4a2a"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><circle cx="32" cy="32" r="23" fill="none" stroke="#241f18" stroke-width="3.5"/><circle cx="51" cy="16" r="6.5" fill="#9c4a2a"/></svg>
+          <svg width="16" height="16" viewBox="0 0 64 64"><circle cx="32" cy="32" r="23" fill="none" stroke="#241f18" stroke-width="4"/><circle cx="51" cy="16" r="7" fill="#9c4a2a"/></svg>
+        </div>
+        <div class="label">cream · light</div>
+      </div>
+      <div class="cell dark">
+        <div class="sizes">
+          <svg width="128" height="128" viewBox="0 0 64 64"><circle cx="32" cy="32" r="23" fill="none" stroke="#e9e1d3" stroke-width="3"/><circle cx="51" cy="16" r="6" fill="#cf7a4f"/></svg>
+          <svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="23" fill="none" stroke="#e9e1d3" stroke-width="3"/><circle cx="51" cy="16" r="6" fill="#cf7a4f"/></svg>
+          <svg width="32" height="32" viewBox="0 0 64 64"><circle cx="32" cy="32" r="23" fill="none" stroke="#e9e1d3" stroke-width="3.5"/><circle cx="51" cy="16" r="6.5" fill="#cf7a4f"/></svg>
+          <svg width="16" height="16" viewBox="0 0 64 64"><circle cx="32" cy="32" r="23" fill="none" stroke="#e9e1d3" stroke-width="4"/><circle cx="51" cy="16" r="7" fill="#cf7a4f"/></svg>
+        </div>
+        <div class="label">ink · dark</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">配色：墨色描边 + 赭红（terracotta）焦点，对应「见微」主题色。三个方向都保持单色几何，缩到 16px favicon 仍清晰。选定后告诉我 A / B / C，我会统一应用到全站并重新部署。</p>
+</div>
+</body>
+</html>

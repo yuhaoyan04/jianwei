@@ -40,7 +40,7 @@
 
 ```bash
 # 1. 克隆
-git clone https://github.com/yuhaoyan04/knowledge-lab.git
+git clone https://github.com/yuhaoyan04/jianwei.git
 cd knowledge-lab
 
 # 2. 安装依赖
