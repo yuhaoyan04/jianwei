@@ -7,9 +7,9 @@ export interface Section {
 }
 
 export const SITE = {
-  name: '见微',
+  name: '見微',
   nameEn: 'Jianwei',
-  wordmark: '见微',
+  wordmark: '見微',
   slogan: '从细节，看见世界的结构。',
 };
 
